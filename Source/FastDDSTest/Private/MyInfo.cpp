@@ -20,28 +20,9 @@
 using namespace eprosima::fastdds::dds;
 
 AMyInfo::AMyInfo()
-	: mp_participant(nullptr)
-	  , mp_publisher(nullptr)
 {
+	PrimaryActorTick.bCanEverTick = true;
 }
-
-AMyInfo::~AMyInfo()
-{
-	if (writer_ != nullptr)
-	{
-		mp_publisher->delete_datawriter(writer_);
-	}
-	if (mp_publisher != nullptr)
-	{
-		mp_participant->delete_publisher(mp_publisher);
-	}
-	if (topic_ != nullptr)
-	{
-		mp_participant->delete_topic(topic_);
-	}
-	DomainParticipantFactory::get_instance()->delete_participant(mp_participant);
-}
-
 
 void AMyInfo::PubListener::on_publication_matched(eprosima::fastdds::dds::DataWriter* writer,
                                                   const eprosima::fastdds::dds::PublicationMatchedStatus& info)
@@ -50,34 +31,40 @@ void AMyInfo::PubListener::on_publication_matched(eprosima::fastdds::dds::DataWr
 	{
 		n_matched = info.total_count;
 		firstConnected = true;
-		std::cout << "Publisher matched" << std::endl;
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,
+		                                 "Publisher matched", true);
 	}
 	else if (info.current_count_change == -1)
 	{
 		n_matched = info.total_count;
-		std::cout << "Publisher unmatched" << std::endl;
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,
+		                                 "Publisher unmatched", true);
 	}
 	else
 	{
-		std::cout << info.current_count_change
-				  << " is not a valid value for PublicationMatchedStatus current count change" << std::endl;
+		FString s = FString::FromInt(info.current_count_change) +
+			" is not a valid value for PublicationMatchedStatus current count change";
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, s, true);
 	}
 }
 
 bool AMyInfo::init()
 {
+	mp_participant = nullptr;
+	mp_publisher = nullptr;
 	FString xmlFile = FPaths::Combine(FPaths::ProjectContentDir(), QOS_URL);
 	if (eprosima::fastrtps::xmlparser::XMLP_ret::XML_OK !=
 		eprosima::fastrtps::xmlparser::XMLProfileManager::loadXMLFile(TCHAR_TO_UTF8(*xmlFile)))
 	{
-		std::cout <<
-			"Cannot open XML file \"helloworld_example_type_profile.xml\". Please, run the publisher from the folder "
-			<< "that contatins this XML file." << std::endl;
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,
+		                                 "Cannot open XML file \"helloworld_example_type_profile.xml\"."
+		                                 " Please, run the publisher from the folder "
+		                                 "that contatins this XML file.", true);
 		return false;
 	}
 
 	eprosima::fastrtps::types::DynamicType_ptr dyn_type =
-		eprosima::fastrtps::xmlparser::XMLProfileManager::getDynamicTypeByName("HelloWorld")->build();
+		eprosima::fastrtps::xmlparser::XMLProfileManager::getDynamicTypeByName(TCHAR_TO_UTF8(*TYPE_NAME))->build();
 	TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(dyn_type));
 	m_Hello = eprosima::fastrtps::types::DynamicDataFactory::get_instance()->create_data(dyn_type);
 
@@ -170,83 +157,119 @@ void AMyInfo::run(uint32_t samples, uint32_t sleep)
 	std::thread thread(&AMyInfo::runThread, this, samples, sleep);
 	if (samples == 0)
 	{
-		std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
-		std::cin.ignore();
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "Publisher running. "
+		                                 "Please press enter to stop the Publisher at any time.", true);
 		stop = true;
 	}
 	else
 	{
-		std::cout << "Publisher running " << samples << " samples." << std::endl;
+		FString s = "Publisher running  " + FString::FromInt(samples) + " samples.";
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, s, true);
 	}
 	thread.join();
+}
+
+void AMyInfo::runInTick(uint32_t samples)
+{
+	for (uint32_t s = 0; s < samples; ++s)
+	{
+		if (!publish())
+		{
+			--s;
+		}
+		else
+		{
+			std::string message;
+			m_Hello->get_string_value(message, 0);
+			uint32_t index;
+			m_Hello->get_uint32_value(index, 1);
+			std::string aux_array = "[";
+			eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
+			for (uint32_t i = 0; i < 5; ++i)
+			{
+				aux_array += "[";
+				for (uint32_t j = 0; j < 2; ++j)
+				{
+					uint32_t elem;
+					array->get_uint32_value(elem, array->get_array_index({i, j}));
+					aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
+				}
+				aux_array += (i == 4 ? "]" : "], ");
+			}
+			m_Hello->return_loaned_value(array);
+			std::cout << "Message: " << message << " with index: " << index
+				<< " array: " << aux_array << " SENT" << std::endl;
+		}
+		// std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
+	}
 }
 
 void AMyInfo::runThread(uint32_t samples, uint32_t sleep)
 {
 	if (samples == 0)
-    {
-        while (!stop)
-        {
-            if (publish(false))
-            {
-                std::string message;
-                m_Hello->get_string_value(message, 0);
-                uint32_t index;
-                m_Hello->get_uint32_value(index, 1);
-                std::string aux_array = "[";
-                eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
-                for (uint32_t i = 0; i < 5; ++i)
-                {
-                    aux_array += "[";
-                    for (uint32_t j = 0; j < 2; ++j)
-                    {
-                        uint32_t elem;
-                        array->get_uint32_value(elem, array->get_array_index({i, j}));
-                        aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
-                    }
-                    aux_array += (i == 4 ? "]" : "], ");
-                }
-                m_Hello->return_loaned_value(array);
-                std::cout << "Message: " << message << " with index: " << index
-                          << " array: " << aux_array << " SENT" << std::endl;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
-        }
-    }
-    else
-    {
-        for (uint32_t s = 0; s < samples; ++s)
-        {
-            if (!publish())
-            {
-                --s;
-            }
-            else
-            {
-                std::string message;
-                m_Hello->get_string_value(message, 0);
-                uint32_t index;
-                m_Hello->get_uint32_value(index, 1);
-                std::string aux_array = "[";
-                eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
-                for (uint32_t i = 0; i < 5; ++i)
-                {
-                    aux_array += "[";
-                    for (uint32_t j = 0; j < 2; ++j)
-                    {
-                        uint32_t elem;
-                        array->get_uint32_value(elem, array->get_array_index({i, j}));
-                        aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
-                    }
-                    aux_array += (i == 4 ? "]" : "], ");
-                }
-                m_Hello->return_loaned_value(array);
-                std::cout << "Message: " << message << " with index: " << index
-                          << " array: " << aux_array << " SENT" << std::endl;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
-        }
-    }
+	{
+		while (!stop)
+		{
+			if (publish(false))
+			{
+				std::string message;
+				m_Hello->get_string_value(message, 0);
+				uint32_t index;
+				m_Hello->get_uint32_value(index, 1);
+				std::string aux_array = "[";
+				eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
+				for (uint32_t i = 0; i < 5; ++i)
+				{
+					aux_array += "[";
+					for (uint32_t j = 0; j < 2; ++j)
+					{
+						uint32_t elem;
+						array->get_uint32_value(elem, array->get_array_index({i, j}));
+						aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
+					}
+					aux_array += (i == 4 ? "]" : "], ");
+				}
+				m_Hello->return_loaned_value(array);
+				std::cout << "Message: " << message << " with index: " << index
+					<< " array: " << aux_array << " SENT" << std::endl;
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
+		}
+	}
+	else
+	{
+		for (uint32_t s = 0; s < samples; ++s)
+		{
+			if (!publish())
+			{
+				--s;
+			}
+			else
+			{
+				std::string message;
+				m_Hello->get_string_value(message, 0);
+				uint32_t index;
+				m_Hello->get_uint32_value(index, 1);
+				std::string aux_array = "[";
+				eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
+				for (uint32_t i = 0; i < 5; ++i)
+				{
+					aux_array += "[";
+					for (uint32_t j = 0; j < 2; ++j)
+					{
+						uint32_t elem;
+						array->get_uint32_value(elem, array->get_array_index({i, j}));
+						aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
+					}
+					aux_array += (i == 4 ? "]" : "], ");
+				}
+				m_Hello->return_loaned_value(array);
+				std::cout << "Message: " << message << " with index: " << index
+					<< " array: " << aux_array << " SENT" << std::endl;
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
+		}
+	}
 }
 
 void AMyInfo::BeginPlay()
@@ -255,9 +278,68 @@ void AMyInfo::BeginPlay()
 
 	int count = 1;
 	int sleep = 100;
-	if(init())
+	if (init())
 	{
-		run(count, sleep);
+		// run(count, sleep);
+		initialed = true;
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "Initialed and run", true);
+	}
+}
+
+void AMyInfo::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	if (writer_ != nullptr)
+	{
+		mp_publisher->delete_datawriter(writer_);
+	}
+	if (mp_publisher != nullptr)
+	{
+		mp_participant->delete_publisher(mp_publisher);
+	}
+	if (topic_ != nullptr)
+	{
+		mp_participant->delete_topic(topic_);
+	}
+	if (DomainParticipantFactory::get_instance() != nullptr && mp_participant != nullptr)
+	{
+		DomainParticipantFactory::get_instance()->delete_participant(mp_participant);	
+	}
+}
+
+void AMyInfo::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (initialed && tickCounts < tickSamples)
+	{
+		if (!publish())
+		{
+			--tickCounts;
+		}
+		else
+		{
+			std::string message;
+			m_Hello->get_string_value(message, 0);
+			uint32_t index;
+			m_Hello->get_uint32_value(index, 1);
+			std::string aux_array = "[";
+			eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
+			for (uint32_t i = 0; i < 5; ++i)
+			{
+				aux_array += "[";
+				for (uint32_t j = 0; j < 2; ++j)
+				{
+					uint32_t elem;
+					array->get_uint32_value(elem, array->get_array_index({i, j}));
+					aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
+				}
+				aux_array += (i == 4 ? "]" : "], ");
+			}
+			m_Hello->return_loaned_value(array);
+			std::cout << "Message: " << message << " with index: " << index
+				<< " array: " << aux_array << " SENT" << std::endl;
+		}
+		++tickCounts;
+		// std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
 	}
 }
