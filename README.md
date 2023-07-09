@@ -21,4 +21,8 @@
 ### 注意编译python binding与使用python binding所用python版本一致
 
 ### 防火墙会导致subscriber找不到publisher
+    加入对应应用程序即可 eg. python.exe
 ![img_3.png](img_3.png)
+
+### 后缀改为cpp，就可以顺利链接了。如果后缀为cxx，则需要引入.lib
+![img_4.png](img_4.png)
