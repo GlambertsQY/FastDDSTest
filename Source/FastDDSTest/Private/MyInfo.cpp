@@ -3,8 +3,8 @@
 
 #include "MyInfo.h"
 
-#include "LocationRotationPublisher.h"
-#include "LocationRotationSubscriber.h"
+#include "LocationRotationTestPubSubTypes.h"
+#include "fastdds/dds/domain/DomainParticipantFactory.hpp"
 
 using namespace eprosima::fastdds::dds;
 
@@ -16,13 +16,20 @@ AMyInfo::AMyInfo()
 void AMyInfo::BeginPlay()
 {
 	Super::BeginPlay();
-	LocationRotationPublisher mypub; 
-	if (mypub.init())
-	{
-		mypub.run();
-		// run(count, sleep);
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "Initialed and run", true);
-	}
+	// LocationRotationPublisher mypub;
+	//LocationRotationSubscriber mysub;
+	//if (mysub.init())
+	//{
+	//	mysub.run();
+	//	// run(count, sleep);
+	//	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "Initialed and run", true);
+	//}
+	TypeSupport _type(new LocationRotationBeanPubSubType());
+	DomainParticipantQos pqos;
+	pqos.name("Participant_pub");
+	DomainParticipant* participant_ = DomainParticipantFactory::get_instance()->create_participant(0, pqos);
+	_type.register_type(participant_);
+	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "Initialed and run", true);
 }
 
 void AMyInfo::EndPlay(const EEndPlayReason::Type EndPlayReason)

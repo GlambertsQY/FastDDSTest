@@ -27,12 +27,12 @@ public class FastDDSTest : ModuleRules
 		PublicIncludePaths.Add(Path.Combine(fastrtpsHome, "include"));
 		
 		// Additional Dependencies
-		PublicAdditionalLibraries.Add(Path.Combine(fastrtpsHome, "lib/x64Win64VS2019/libfastcdr-1.0.lib"));
+        PublicAdditionalLibraries.Add(Path.Combine(fastrtpsHome, "lib/x64Win64VS2019/libfastcdr-1.0.lib"));
         PublicAdditionalLibraries.Add(Path.Combine(fastrtpsHome, "lib/x64Win64VS2019/fastrtps-2.10.lib"));
-        // PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "LocationRotation_lib.lib"));
+		// PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "LocationRotation_lib.lib"));
 
-        //Preprocessor Definitions
-        PublicDefinitions.Add("WIN32");
+		//Preprocessor Definitions
+		PublicDefinitions.Add("WIN32");
 		PublicDefinitions.Add("_WINDOWS");
 		PublicDefinitions.Add("FASTRTPS_DYN_LINK");
 		PublicDefinitions.Add("FASTCDR_NO_LIB");
