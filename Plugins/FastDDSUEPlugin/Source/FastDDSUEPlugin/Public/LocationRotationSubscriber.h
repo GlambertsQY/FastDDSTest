@@ -1,4 +1,4 @@
-﻿// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+// Copyright 2016 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,10 +31,6 @@
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
-#include <fastdds/dds/topic/Topic.hpp>
-#include <fastdds/dds/topic/TypeSupport.hpp>
-
-
 
 class LocationRotationSubscriber
 {
@@ -55,6 +51,9 @@ private:
     eprosima::fastdds::dds::Topic* topic_;
     eprosima::fastdds::dds::DataReader* reader_;
     eprosima::fastdds::dds::TypeSupport type_;
+
+    eprosima::fastdds::dds::DataReaderQos rqos;
+    eprosima::fastdds::dds::DomainParticipantQos pqos;
 
     class SubListener : public eprosima::fastdds::dds::DataReaderListener
     {

@@ -20,17 +20,18 @@
  */
 
 
-
 #ifndef _FAST_DDS_GENERATED_LOCATIONROTATION_PUBSUBTYPES_H_
 #define _FAST_DDS_GENERATED_LOCATIONROTATION_PUBSUBTYPES_H_
 
 #pragma warning(disable : 4668)
 #pragma warning(disable : 4582)
+#pragma warning(disable : 4265)
 
 #include <fastdds/dds/topic/TopicDataType.hpp>
 #include <fastrtps/utils/md5.h>
 
 #include "LocationRotation.h"
+
 
 #if !defined(GEN_API_VER) || (GEN_API_VER != 1)
 #error \
@@ -38,9 +39,10 @@
     Generated LocationRotation is not compatible with current installed Fast DDS. Please, regenerate it with fastddsgen.
 #endif  // GEN_API_VER
 
+
 /*!
  * @brief This class represents the TopicDataType of the type LocationRotationBean defined by the user in the IDL file.
- * @ingroup LOCATIONROTATION
+ * @ingroup LocationRotation
  */
 class LocationRotationBeanPubSubType : public eprosima::fastdds::dds::TopicDataType
 {
@@ -101,6 +103,8 @@ public:
 
     MD5 m_md5;
     unsigned char* m_keyBuffer;
+
 };
 
 #endif // _FAST_DDS_GENERATED_LOCATIONROTATION_PUBSUBTYPES_H_
+

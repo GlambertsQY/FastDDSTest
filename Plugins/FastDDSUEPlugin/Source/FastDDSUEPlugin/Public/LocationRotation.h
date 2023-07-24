@@ -24,6 +24,7 @@
 
 #pragma warning(disable : 4668)
 #pragma warning(disable : 4582)
+#pragma warning(disable : 4265)
 
 #include <fastrtps/utils/fixed_size_string.hpp>
 
@@ -46,16 +47,16 @@
 
 #if defined(_WIN32)
 #if defined(EPROSIMA_USER_DLL_EXPORT)
-#if defined(LocationRotation_SOURCE)
-#define LocationRotation_DllAPI __declspec( dllexport )
+#if defined(LOCATIONROTATION_SOURCE)
+#define LOCATIONROTATION_DllAPI __declspec( dllexport )
 #else
-#define LocationRotation_DllAPI __declspec( dllimport )
-#endif // LocationRotation_SOURCE
+#define LOCATIONROTATION_DllAPI __declspec( dllimport )
+#endif // LOCATIONROTATION_SOURCE
 #else
-#define LocationRotation_DllAPI
+#define LOCATIONROTATION_DllAPI
 #endif  // EPROSIMA_USER_DLL_EXPORT
 #else
-#define LocationRotation_DllAPI
+#define LOCATIONROTATION_DllAPI
 #endif // _WIN32
 
 namespace eprosima {
@@ -67,7 +68,7 @@ class Cdr;
 
 /*!
  * @brief This class represents the structure LocationRotationBean defined by the user in the IDL file.
- * @ingroup LOCATIONROTATION
+ * @ingroup LocationRotation
  */
 class LocationRotationBean
 {
@@ -215,3 +216,4 @@ private:
 };
 
 #endif // _FAST_DDS_GENERATED_LOCATIONROTATION_H_
+

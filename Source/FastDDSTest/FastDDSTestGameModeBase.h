@@ -13,5 +13,7 @@ UCLASS()
 class FASTDDSTEST_API AFastDDSTestGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	virtual void BeginPlay() override;
 	
 };

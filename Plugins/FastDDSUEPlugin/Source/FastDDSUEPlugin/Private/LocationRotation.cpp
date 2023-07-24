@@ -181,3 +181,4 @@ void LocationRotationBean::serializeKey(
 {
     (void) scdr;
 }
+

@@ -26,3 +26,13 @@
 
 ### 后缀改为cpp，就可以顺利链接了。如果后缀为cxx，则需要引入.lib
 ![img_4.png](img_4.png)
+
+### 遇到exception，使用Visual Studio查看完整信息，平时编码使用Rider方便
+
+
+### 源码编译的好处
+    预编译可能无debug symbol，定位到dll中的源码异常位置
+    即使有debug版本的dll，但是编译设置和UE编译设置不同，无法顺利链接
+![img_5.png](img_5.png)
+
+![img_6.png](img_6.png)
