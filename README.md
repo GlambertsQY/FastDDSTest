@@ -27,6 +27,8 @@
 ### 后缀改为cpp，就可以顺利链接了。如果后缀为cxx，则需要引入.lib
 ![img_4.png](img_4.png)
 
+### 头文件顺序错误也会报错
+
 ### 遇到exception，使用Visual Studio查看完整信息，平时编码使用Rider方便
 
 
