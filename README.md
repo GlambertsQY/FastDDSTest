@@ -38,3 +38,5 @@
 ![img_5.png](img_5.png)
 
 ![img_6.png](img_6.png)
+
+### Visual Studio Code 处理merge conflicts好用
