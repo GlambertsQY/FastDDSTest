@@ -115,13 +115,13 @@ void AMyInfo::BeginPlay()
 {
 	Super::BeginPlay();
 	// mysub = GetWorld()->SpawnActor<ALRSubscriberActor>(ALRSubscriberActor::StaticClass(), FVector::ZeroVector, FRotator::ZeroRotator);
-	mysub = NewObject<UObjectClassTest>();
+	mysub = NewObject<UJsonStrSubscriber>();
 	// mysub = NewObject<UObjectClassTest>();
 	if(mysub->init())
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, "mysub Initialed and run", true);
 	}
-	cppSub = NewObject<UObjectClassTest>();
+	cppSub = NewObject<UJsonStrSubscriber>();
 	cppSub->setParams(TEXT("Participant_Pub"), TEXT("LocationRotationTopic"));
 	if(cppSub->init())
 	{

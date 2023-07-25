@@ -26,7 +26,7 @@ char dummy;
 }  // namespace
 #endif  // _WIN32
 
-#include "LocationRotation.h"
+#include "JsonStr.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>
@@ -37,31 +37,31 @@ using namespace eprosima::fastcdr::exception;
 #define LocationRotationBean_max_cdr_typesize 260ULL;
 #define LocationRotationBean_max_key_cdr_typesize 0ULL;
 
-LocationRotationBean::LocationRotationBean()
+JsonStrBean::JsonStrBean()
 {
     // string m_LRJsonString
     m_LRJsonString ="";
 
 }
 
-LocationRotationBean::~LocationRotationBean()
+JsonStrBean::~JsonStrBean()
 {
 }
 
-LocationRotationBean::LocationRotationBean(
-        const LocationRotationBean& x)
+JsonStrBean::JsonStrBean(
+        const JsonStrBean& x)
 {
     m_LRJsonString = x.m_LRJsonString;
 }
 
-LocationRotationBean::LocationRotationBean(
-        LocationRotationBean&& x) noexcept 
+JsonStrBean::JsonStrBean(
+        JsonStrBean&& x) noexcept 
 {
     m_LRJsonString = std::move(x.m_LRJsonString);
 }
 
-LocationRotationBean& LocationRotationBean::operator =(
-        const LocationRotationBean& x)
+JsonStrBean& JsonStrBean::operator =(
+        const JsonStrBean& x)
 {
 
     m_LRJsonString = x.m_LRJsonString;
@@ -69,8 +69,8 @@ LocationRotationBean& LocationRotationBean::operator =(
     return *this;
 }
 
-LocationRotationBean& LocationRotationBean::operator =(
-        LocationRotationBean&& x) noexcept
+JsonStrBean& JsonStrBean::operator =(
+        JsonStrBean&& x) noexcept
 {
 
     m_LRJsonString = std::move(x.m_LRJsonString);
@@ -78,28 +78,28 @@ LocationRotationBean& LocationRotationBean::operator =(
     return *this;
 }
 
-bool LocationRotationBean::operator ==(
-        const LocationRotationBean& x) const
+bool JsonStrBean::operator ==(
+        const JsonStrBean& x) const
 {
 
     return (m_LRJsonString == x.m_LRJsonString);
 }
 
-bool LocationRotationBean::operator !=(
-        const LocationRotationBean& x) const
+bool JsonStrBean::operator !=(
+        const JsonStrBean& x) const
 {
     return !(*this == x);
 }
 
-size_t LocationRotationBean::getMaxCdrSerializedSize(
+size_t JsonStrBean::getMaxCdrSerializedSize(
         size_t current_alignment)
 {
     static_cast<void>(current_alignment);
     return LocationRotationBean_max_cdr_typesize;
 }
 
-size_t LocationRotationBean::getCdrSerializedSize(
-        const LocationRotationBean& data,
+size_t JsonStrBean::getCdrSerializedSize(
+        const JsonStrBean& data,
         size_t current_alignment)
 {
     (void)data;
@@ -111,7 +111,7 @@ size_t LocationRotationBean::getCdrSerializedSize(
     return current_alignment - initial_alignment;
 }
 
-void LocationRotationBean::serialize(
+void JsonStrBean::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
 
@@ -119,7 +119,7 @@ void LocationRotationBean::serialize(
 
 }
 
-void LocationRotationBean::deserialize(
+void JsonStrBean::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
 
@@ -129,7 +129,7 @@ void LocationRotationBean::deserialize(
  * @brief This function copies the value in member LRJsonString
  * @param _LRJsonString New value to be copied in member LRJsonString
  */
-void LocationRotationBean::LRJsonString(
+void JsonStrBean::LRJsonString(
         const std::string& _LRJsonString)
 {
     m_LRJsonString = _LRJsonString;
@@ -139,7 +139,7 @@ void LocationRotationBean::LRJsonString(
  * @brief This function moves the value in member LRJsonString
  * @param _LRJsonString New value to be moved in member LRJsonString
  */
-void LocationRotationBean::LRJsonString(
+void JsonStrBean::LRJsonString(
         std::string&& _LRJsonString)
 {
     m_LRJsonString = std::move(_LRJsonString);
@@ -149,7 +149,7 @@ void LocationRotationBean::LRJsonString(
  * @brief This function returns a constant reference to member LRJsonString
  * @return Constant reference to member LRJsonString
  */
-const std::string& LocationRotationBean::LRJsonString() const
+const std::string& JsonStrBean::LRJsonString() const
 {
     return m_LRJsonString;
 }
@@ -158,25 +158,25 @@ const std::string& LocationRotationBean::LRJsonString() const
  * @brief This function returns a reference to member LRJsonString
  * @return Reference to member LRJsonString
  */
-std::string& LocationRotationBean::LRJsonString()
+std::string& JsonStrBean::LRJsonString()
 {
     return m_LRJsonString;
 }
 
 
-size_t LocationRotationBean::getKeyMaxCdrSerializedSize(
+size_t JsonStrBean::getKeyMaxCdrSerializedSize(
         size_t current_alignment)
 {
     static_cast<void>(current_alignment);
     return LocationRotationBean_max_key_cdr_typesize;
 }
 
-bool LocationRotationBean::isKeyDefined()
+bool JsonStrBean::isKeyDefined()
 {
     return false;
 }
 
-void LocationRotationBean::serializeKey(
+void JsonStrBean::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;

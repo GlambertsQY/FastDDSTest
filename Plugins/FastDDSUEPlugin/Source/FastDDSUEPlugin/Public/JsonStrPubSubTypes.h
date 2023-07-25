@@ -30,7 +30,7 @@
 #include <fastdds/dds/topic/TopicDataType.hpp>
 #include <fastrtps/utils/md5.h>
 
-#include "LocationRotation.h"
+#include "JsonStr.h"
 
 
 #if !defined(GEN_API_VER) || (GEN_API_VER != 1)
@@ -44,15 +44,15 @@
  * @brief This class represents the TopicDataType of the type LocationRotationBean defined by the user in the IDL file.
  * @ingroup LocationRotation
  */
-class LocationRotationBeanPubSubType : public eprosima::fastdds::dds::TopicDataType
+class JsonStrBeanPubSubType : public eprosima::fastdds::dds::TopicDataType
 {
 public:
 
-    typedef LocationRotationBean type;
+    typedef JsonStrBean type;
 
-    eProsima_user_DllExport LocationRotationBeanPubSubType();
+    eProsima_user_DllExport JsonStrBeanPubSubType();
 
-    eProsima_user_DllExport virtual ~LocationRotationBeanPubSubType() override;
+    eProsima_user_DllExport virtual ~JsonStrBeanPubSubType() override;
 
     eProsima_user_DllExport virtual bool serialize(
             void* data,

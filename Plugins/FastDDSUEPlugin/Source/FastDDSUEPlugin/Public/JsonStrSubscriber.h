@@ -13,19 +13,19 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "ObjectClassTest.generated.h"
+#include "JsonStrSubscriber.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FASTDDSUEPLUGIN_API UObjectClassTest : public UObject
+class FASTDDSUEPLUGIN_API UJsonStrSubscriber : public UObject
 {
 	GENERATED_BODY()
 public:
 	bool init();
-	UObjectClassTest();
-	virtual ~UObjectClassTest() override;
+	UJsonStrSubscriber();
+	virtual ~UJsonStrSubscriber() override;
 	
 	std::string* Message = nullptr;
 

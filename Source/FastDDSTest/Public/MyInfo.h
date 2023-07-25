@@ -11,7 +11,7 @@
 // #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 // #include <fastdds/dds/subscriber/Subscriber.hpp>
 // #include "FastDDSUEPlugin/Public/LocationRotationSubscriber.h"
-#include "ObjectClassTest.h"
+#include "..\..\..\Plugins\FastDDSUEPlugin\Source\FastDDSUEPlugin\Public\JsonStrSubscriber.h"
 
 #include "CoreMinimal.h"
 // #include "LRSubscriberActor.h"
@@ -30,10 +30,10 @@ public:
 	AMyInfo();
 
 	UPROPERTY()
-	UObjectClassTest* mysub;
+	UJsonStrSubscriber* mysub;
 
 	UPROPERTY()
-	UObjectClassTest* cppSub;
+	UJsonStrSubscriber* cppSub;
 	 
 	// bool init();
 	

@@ -70,61 +70,61 @@ class Cdr;
  * @brief This class represents the structure LocationRotationBean defined by the user in the IDL file.
  * @ingroup LocationRotation
  */
-class LocationRotationBean
+class JsonStrBean
 {
 public:
 
     /*!
      * @brief Default constructor.
      */
-    eProsima_user_DllExport LocationRotationBean();
+    eProsima_user_DllExport JsonStrBean();
 
     /*!
      * @brief Default destructor.
      */
-    eProsima_user_DllExport ~LocationRotationBean();
+    eProsima_user_DllExport ~JsonStrBean();
 
     /*!
      * @brief Copy constructor.
      * @param x Reference to the object LocationRotationBean that will be copied.
      */
-    eProsima_user_DllExport LocationRotationBean(
-            const LocationRotationBean& x);
+    eProsima_user_DllExport JsonStrBean(
+            const JsonStrBean& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object LocationRotationBean that will be copied.
      */
-    eProsima_user_DllExport LocationRotationBean(
-            LocationRotationBean&& x) noexcept;
+    eProsima_user_DllExport JsonStrBean(
+            JsonStrBean&& x) noexcept;
 
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object LocationRotationBean that will be copied.
      */
-    eProsima_user_DllExport LocationRotationBean& operator =(
-            const LocationRotationBean& x);
+    eProsima_user_DllExport JsonStrBean& operator =(
+            const JsonStrBean& x);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object LocationRotationBean that will be copied.
      */
-    eProsima_user_DllExport LocationRotationBean& operator =(
-            LocationRotationBean&& x) noexcept;
+    eProsima_user_DllExport JsonStrBean& operator =(
+            JsonStrBean&& x) noexcept;
 
     /*!
      * @brief Comparison operator.
      * @param x LocationRotationBean object to compare.
      */
     eProsima_user_DllExport bool operator ==(
-            const LocationRotationBean& x) const;
+            const JsonStrBean& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x LocationRotationBean object to compare.
      */
     eProsima_user_DllExport bool operator !=(
-            const LocationRotationBean& x) const;
+            const JsonStrBean& x) const;
 
     /*!
      * @brief This function copies the value in member LRJsonString
@@ -168,7 +168,7 @@ public:
      * @return Serialized size.
      */
     eProsima_user_DllExport static size_t getCdrSerializedSize(
-            const LocationRotationBean& data,
+            const JsonStrBean& data,
             size_t current_alignment = 0);
 
 

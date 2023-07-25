@@ -1,8 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ObjectClassTest.h"
-#include "LocationRotationPubSubTypes.h"
+#include "JsonStrSubscriber.h"
+#include "..\Public\JsonStrPubSubTypes.h"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/subscriber/DataReader.hpp>
@@ -11,7 +11,7 @@
 
 using namespace eprosima::fastdds::dds;
 
-bool UObjectClassTest::init()
+bool UJsonStrSubscriber::init()
 {
 	//CREATE THE PARTICIPANT
 
@@ -54,19 +54,19 @@ bool UObjectClassTest::init()
 	return true;
 }
 
-UObjectClassTest::UObjectClassTest()
+UJsonStrSubscriber::UJsonStrSubscriber()
 	: participant_(nullptr)
 	  , subscriber_(nullptr)
 	  , topic_(nullptr)
 	  , reader_(nullptr)
-	  , type_(new LocationRotationBeanPubSubType())
+	  , type_(new JsonStrBeanPubSubType())
 {
 	Message = &listener_.getStr;
 	ParticipantName = TEXT("Participant_Pub");
 	TopicName = TEXT("myTopic");
 }
 
-UObjectClassTest::~UObjectClassTest()
+UJsonStrSubscriber::~UJsonStrSubscriber()
 {
 	if (reader_ != nullptr)
 	{
@@ -83,16 +83,16 @@ UObjectClassTest::~UObjectClassTest()
 	DomainParticipantFactory::get_instance()->delete_participant(participant_);
 }
 
-void UObjectClassTest::setParams(FString PName, FString TName)
+void UJsonStrSubscriber::setParams(FString PName, FString TName)
 {
 	ParticipantName = PName;
 	TopicName = TName;
 }
 
-void UObjectClassTest::SubListener::on_data_available(eprosima::fastdds::dds::DataReader* reader)
+void UJsonStrSubscriber::SubListener::on_data_available(eprosima::fastdds::dds::DataReader* reader)
 {
 	// Take data
-	LocationRotationBean st;
+	JsonStrBean st;
 	SampleInfo info;
 
 	if (reader->take_next_sample(&st, &info) == ReturnCode_t::RETCODE_OK)
@@ -108,7 +108,7 @@ void UObjectClassTest::SubListener::on_data_available(eprosima::fastdds::dds::Da
 	}
 }
 
-void UObjectClassTest::SubListener::on_subscription_matched(eprosima::fastdds::dds::DataReader* reader,
+void UJsonStrSubscriber::SubListener::on_subscription_matched(eprosima::fastdds::dds::DataReader* reader,
                                                             const eprosima::fastdds::dds::SubscriptionMatchedStatus&
                                                             info)
 {
