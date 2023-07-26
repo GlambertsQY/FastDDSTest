@@ -26,7 +26,7 @@ char dummy;
 }  // namespace
 #endif  // _WIN32
 
-#include "Utils/JsonStr.h"
+#include "JsonStr.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>

@@ -5,10 +5,10 @@
 #pragma warning(disable : 4582)
 #pragma warning(disable : 4265)
 
-
+#include "CoreMinimal.h"
+#include "JsonStrPublisher.h"
 #include "JsonStrSubscriber.h"
 
-#include "CoreMinimal.h"
 #include "GameFramework/Info.h"
 #include "MyInfo.generated.h"
 
@@ -28,6 +28,9 @@ public:
 
 	UPROPERTY()
 	UJsonStrSubscriber* cppSub;
+
+	UPROPERTY()
+	UJsonStrPublisher* mypub;
 
 
 protected:

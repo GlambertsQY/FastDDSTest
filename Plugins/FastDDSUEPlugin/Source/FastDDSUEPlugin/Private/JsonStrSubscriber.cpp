@@ -2,7 +2,7 @@
 
 
 #include "JsonStrSubscriber.h"
-#include "Utils/JsonStrPubSubTypes.h"
+#include "JsonStrPubSubTypes.h"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/subscriber/DataReader.hpp>
