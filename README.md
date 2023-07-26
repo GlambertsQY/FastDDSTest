@@ -40,3 +40,5 @@
 ![img_6.png](img_6.png)
 
 ### Visual Studio Code 处理merge conflicts好用
+
+![img_7.png](img_7.png)

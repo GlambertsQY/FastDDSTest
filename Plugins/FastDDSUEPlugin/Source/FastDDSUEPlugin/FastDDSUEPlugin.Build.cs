@@ -10,23 +10,25 @@ public class FastDDSUEPlugin : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		bUseRTTI = true;
-		bEnableExceptions = true;
+		// bEnableExceptions = true;
 
-		string fastrtpsHome = Environment.GetEnvironmentVariable("FASTRTPSHOME");
+		// string fastrtpsHome = Environment.GetEnvironmentVariable("FASTRTPSHOME");
 		PublicIncludePaths.AddRange(
 			new string[] {
 				// ... add public include paths required here ...
 			}
 			);
-		PublicIncludePaths.Add( Path.Combine(fastrtpsHome, "include"));
-		PublicAdditionalLibraries.Add(Path.Combine(fastrtpsHome, "lib/libfastcdr-1.1.lib"));
-		PublicAdditionalLibraries.Add(Path.Combine(fastrtpsHome, "lib/fastrtps-2.11.lib"));
+		PublicIncludePaths.Add( Path.Combine(ModuleDirectory, "include"));
+		PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "libs", "libfastcdr-1.1.lib"));
+		PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "libs", "fastrtps-2.11.lib"));
 		
 		PublicDefinitions.Add("WIN32");
 		PublicDefinitions.Add("_WINDOWS");
 		PublicDefinitions.Add("FASTRTPS_DYN_LINK");
 		PublicDefinitions.Add("FASTRTPS_NO_LIB");
 		PublicDefinitions.Add("FASTCDR_NO_LIB");
+		
+		RuntimeDependencies.Add(Path.Combine(ModuleDirectory, "dlls", "fastrtps-2.11.dll"));
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
