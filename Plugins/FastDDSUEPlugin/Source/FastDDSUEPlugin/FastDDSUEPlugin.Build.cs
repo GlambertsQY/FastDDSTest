@@ -28,7 +28,8 @@ public class FastDDSUEPlugin : ModuleRules
 		PublicDefinitions.Add("FASTRTPS_NO_LIB");
 		PublicDefinitions.Add("FASTCDR_NO_LIB");
 		
-		RuntimeDependencies.Add(Path.Combine(ModuleDirectory, "dlls", "fastrtps-2.11.dll"));
+		// 这句没用？
+		// RuntimeDependencies.Add(Path.Combine(ModuleDirectory, "dlls", "fastrtps-2.11.dll"));
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
